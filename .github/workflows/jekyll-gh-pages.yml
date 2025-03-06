@@ -1,10 +1,13 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: docfx for GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches:
+      - 'main'
+      ##- 'releases/**'
+  release:
+    types: [published]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,30 +25,69 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-
-  # Deployment job
+  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+
+
+    #########################################
+    ######  sator-imaging/docfx-pages  ######
+    #########################################
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+
+      # for extensibility, docfx-pages does NOT checkout your repository.
+      # so you need to checkout manually prior to sator-imaging/docfx-pages.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+
+      # after checkout, you can checkout another repo, copy logo image or
+      # other assets into '.docfx' folder to setup your own docfx environment.
+      # note that images must be copied into '.docfx/images', 'images' or '.images'.
+
+
+      ######  main  ######
+
+      - uses: sator-imaging/docfx-pages@v1
+        id: deployment   # required to show url in actions result page.
+        with:
+
+          # required options
+          # NOTE: double-quote (") cannot be used, backquote (`) must be escaped (\`).
+          app_name:    'Deploy Test'
+          site_title:  'Deploy Test using sator-imaging/docfx-pages'
+          site_footer: '<big>&times; Is HTML accepted?</big>'
+
+          # optional
+          class_members: 'separatePages'  # 'separatePages' or 'samePage'
+          google_analytics: ''  # empty to disable
+          define_symbols: ''  # additional preprocessor symbols separated by ';'
+
+          # paths must be relative from .docfx folder. default value is used when not set.
+          # note that url works but only in top page. see sample website for detail.
+          ###site_logo:    '<logo>.svg'
+          ###site_favicon: '<favicon>.svg'
+
+          # advanced options
+          # --> https://dotnet.github.io/docfx/docs/template.html?tabs=modern#custom-template
+          # main.js
+          # NOTE: double-quote (") cannot be used, backquote (`) must be escaped (\`).
+          main_js: |
+            export default {
+                defaultTheme: 'light',
+                showLightbox: (img) => true,
+                iconLinks: [
+                    {
+                        icon: 'github',
+                        href: 'https://github.com/sator-imaging',
+                        title: 'GitHub'
+                    },
+                ],
+            }
+
+          # main.css
+          # NOTE: double-quote (") cannot be used, backquote (`) must be escaped (\`).
+          main_css: |
