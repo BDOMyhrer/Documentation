@@ -1,0 +1,20 @@
+<h1 id="bdo-brreg-integration">BDO BRREG integration</h1>
+<p>Integrasjonen mot BRREG.no for import og kontroll av data for enheter
+og roller. Integrasjonen importerer enheter og deres roller og knytter
+roller til enheten.</p>
+<p>Integrasjonen oppdaeterer enheter og roller og sier ifra ved slettede
+enheter eller roller.</p>
+<h2 id="brreg-info-på-leverandører-og-kunder">BRREG info på leverandører
+og kunder</h2>
+<figure>
+<img src="media/brreg-info-cardpart.png" alt="Brreg info" />
+<figcaption aria-hidden="true">Brreg info</figcaption>
+</figure>
+<p>Les mer her <a href="custvend/brreg-info-cardpart.md">BRREG
+info</a></p>
+<h2 id="nytt-på-kundekortet">Nytt på Kundekortet</h2>
+<p>Les mer her <a href="custvend/brreg-page-customer-card.md">BRREG
+info</a></p>
+<h2 id="nytt-på-leverandørkortet">Nytt på Leverandørkortet</h2>
+<p>Les mer her <a href="custvend/brreg-page-customer-card.md">BRREG
+info</a></p>

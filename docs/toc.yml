@@ -1,0 +1,12 @@
+- name: Oppset
+  href: setup/
+- name: Søk
+  href: search/
+- name: Kunder/Leverandører
+  href: custvend/
+- name: Roller
+  href: roles/
+- name: Konkursbegjæringer
+  href: bankruptcy/
+- name: Underenheter
+  href: subunits/
